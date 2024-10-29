@@ -1,69 +1,74 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Theorem Talk</title>
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theorem Talk</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<!-- Navbar -->
-<nav class="navbar">
-  <a href="/" class="navbar-brand">Theorem Talk</a>
-  <div class="navbar-search">
-    <input type="text" placeholder="Search for math questions...">
-    <button type="submit">Search</button>
-  </div>
-  <ul class="navbar-nav">
-    <li><a href="/questions">Questions</a></li>
-    <li><a href="/ask">Ask Question</a></li>
-    <li><a href="/tags">Tags</a></li>
-    <li><a href="/profile"><img src="user-avatar.png" alt="User Avatar"></a></li>
-  </ul>
-</nav>
-
-<!-- Sidebar -->
-<div class="sidebar">
-  <ul>
-    <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-    <li><a href="/questions"><i class="fas fa-question"></i> Questions</a></li>
-    <li><a href="/tags"><i class="fas fa-tags"></i> Tags</a></li>
-    <li><a href="/users"><i class="fas fa-users"></i> Users</a></li>
-  </ul>
-</div>
-
-<!-- Content (placeholder for dynamic content) -->
-<div class="content">
-  <!-- This section will hold the main content for each page -->
-</div>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-top">
-    <div class="footer-logo">
-        <img src="theorem-talk-logo.png" alt="Theorem Talk Logo">
-    </div>
-    <div class="footer-links">
-      <ul>
-        <li><strong>Products</strong></li>
-        <li><a href="#">Teams</a></li>
-        <li><a href="#">Advertising</a></li>
-        <li><a href="#">Talent</a></li>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="#" class="navbar-brand">Theorem Talk</a>
+      <div class="navbar-search">
+        <input type="text" placeholder="Search..." />
+        <button type="submit">Search</button>
+      </div>
+      <ul class="navbar-nav">
+        <li><a href="#">Ask Question</a></li>
+        <li><a href="#"><img src="{% static 'img/user-avatar.png' %}" alt="User Avatar" /></a></li>
       </ul>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
       <ul>
-        <li><strong>Company</strong></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fas fa-question"></i> Questions</a></li>
+        <li><a href="#"><i class="fas fa-tags"></i> Tags</a></li>
+        <li><a href="#"><i class="fas fa-bookmark"></i> Saves</a></li>
+        <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
       </ul>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2024 Theorem Talk. All rights reserved.</p>
-  </div>
-</footer>
 
-</body>
+    <div class="main-content">
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-column">
+        <a href="#" class="footer-logo">
+          <img src="{% static 'img/logo.png' %}" alt="Theorem Talk Logo" />
+        </a>
+      </div>
+      <div class="footer-column">
+        <h4>Theorem Talk</h4>
+        <ul>
+          <li><a href="#">Questions</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
 </html>
