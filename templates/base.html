@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,13 @@
       </div>
       <ul class="navbar-nav">
         <li><a href="#">Ask Question</a></li>
-        <li><a href="#"><img src="{% static 'img/user-avatar.png' %}" alt="User Avatar" /></a></li>
+        <li>
+          {% if user.is_authenticated %}
+            <a href="#"><img src="{% static 'img/user-avatar.png' %}" alt="User Avatar" /></a>
+            <span>{{ user.username }}</span>
+          
+          {% endif %}
+        </li>
       </ul>
     </nav>
 
