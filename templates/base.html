@@ -26,6 +26,14 @@
         {% endif %}
       </ul>
     </nav>
+    
+    <div class="msg">
+      {% if messages %}
+        {% for message in messages %}
+          <h4 style="text-align: center;">{{ message}}</h4>
+        {% endfor %}
+      {% endif %}
+    </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
