@@ -1,4 +1,5 @@
 # user/views.py
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
@@ -6,8 +7,17 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 
-
+class CustomLoginView(LoginView):
+  # Specify custom template
+  template_name = 'users/login.html'  
+  def dispatch(self, request, *args, **kwargs):
+    if request.user.is_authenticated:
+      return redirect('home')  # Redirect if already logged in
+    return super().dispatch(request, *args, **kwargs)
+  
 def register(request):
+  if request.user.is_authenticated:
+    return redirect('home')  # Redirect if already logged in
   if request.method == 'POST':
     form = UserRegisterForm(request.POST)
     if form.is_valid():
@@ -22,3 +32,5 @@ def register(request):
 def logout_view(request):
   logout(request)
   return redirect('home')  # Redirect to home or another page after logout
+
+
