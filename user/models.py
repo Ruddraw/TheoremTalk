@@ -10,7 +10,8 @@ class Profile(models.Model):
   #email
   email = models.EmailField(default="")
   #image
-  image = models.ImageField(default="default.jpg", upload_to="profile_pic")
+  image = models.ImageField(default="profile_pic/default.jpg", upload_to="profile_pic")
+
 
   def __str__(self):
     return f'{self.user.username} - Profile'
