@@ -69,7 +69,13 @@ body {
   text-decoration: none;
   padding: 10px;
 }
-
+/* CSS for profile pic in navbar */
+.profile-pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
 /* Sidebar styles */
 .sidebar {
   background-color: #24292e;

@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
-from django.contrib.auth.decorators import login_required
+
 
 class CustomLoginView(LoginView):
   # Specify custom template
@@ -34,3 +34,5 @@ def logout_view(request):
   return redirect('home')  # Redirect to home or another page after logout
 
 
+def profile(request):
+  return render(request, 'users/profile.html')

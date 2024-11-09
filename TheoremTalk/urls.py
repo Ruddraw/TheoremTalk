@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from base import views as base_views
+from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,7 @@ urlpatterns = [
     path('', base_views.home, name='home'),
     #include the user page url
     path('users/', include('user.urls')),  
+
+    #profile 
+    path('profile/', user_views.profile, name = "profile"),
 ]
