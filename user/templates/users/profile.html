@@ -7,5 +7,9 @@
     <p><strong>Bio:</strong> {{ user.profile.bio }}
       <p><strong>Email:</strong> {{ user.email }}</p></p>
     <!-- Add user activity-->
+    <a href="{% url 'update_profile' %}">
+      <button>Update Profile</button>
+    </a>
+  
 </div>
 {% endblock %}
