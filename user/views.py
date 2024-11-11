@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
-
+from .forms import ProfileUpdateForm, UserUpdateForm
 
 class CustomLoginView(LoginView):
   # Specify custom template
@@ -36,3 +36,13 @@ def logout_view(request):
 
 def profile(request):
   return render(request, 'users/profile.html')
+
+def profile_update(request):
+  u_form = UserUpdateForm()
+  p_form = ProfileUpdateForm()
+
+  context = {
+    'u_form' : u_form,
+    'p_form' : p_form
+  }
+  return render(request, 'user/profile_update.html', context)
