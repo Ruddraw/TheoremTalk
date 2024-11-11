@@ -37,7 +37,7 @@ def logout_view(request):
 def profile(request):
   return render(request, 'users/profile.html')
 
-def profile_update(request):
+def update_profile(request):
   u_form = UserUpdateForm()
   p_form = ProfileUpdateForm()
 
@@ -45,4 +45,4 @@ def profile_update(request):
     'u_form' : u_form,
     'p_form' : p_form
   }
-  return render(request, 'user/profile_update.html', context)
+  return render(request, 'user/update_profile.html', context)

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
-from .models import profile
+from .models import Profile
 class UserRegisterForm(UserCreationForm):
   first_name = models.TextField(max_length=200)
   last_name = models.TextField(max_length=200)

@@ -29,6 +29,7 @@ urlpatterns = [
 
     #profile 
     path('profile/', user_views.profile, name = "profile"),
+    path('profile/update/', user_views.update_profile, name = "update_profile")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
