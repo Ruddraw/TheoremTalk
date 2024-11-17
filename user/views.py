@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
 from .forms import ProfileUpdateForm, UserUpdateForm
+from django.contrib.auth.decorators import login_required
 
 class CustomLoginView(LoginView):
   # Specify custom template
@@ -33,10 +34,10 @@ def logout_view(request):
   logout(request)
   return redirect('home')  # Redirect to home or another page after logout
 
-
+@login_required
 def profile(request):
   return render(request, 'users/profile.html')
-
+@login_required
 def update_profile(request):
   if request.method == 'POST':
     u_form = UserUpdateForm(request.POST, instance=request.user)
