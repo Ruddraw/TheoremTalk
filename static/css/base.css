@@ -76,6 +76,41 @@ body {
   border-radius: 50%;
   margin-right: 5px;
 }
+
+/*message style*/
+.msg ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.msg li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.alert {
+  font-weight: bold;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-error, .alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
 /* Sidebar styles */
 .sidebar {
   background-color: #24292e;

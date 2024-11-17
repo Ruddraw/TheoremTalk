@@ -33,13 +33,16 @@
       </ul>
    </nav>
     
-    <div class="msg">
-      {% if messages %}
+   <div class="msg">
+    {% if messages %}
+      <ul>
         {% for message in messages %}
-          <h4 style="text-align: center;">{{ message}}</h4>
+          <li class="alert alert-{{ message.tags }}">{{ message }}</li>
         {% endfor %}
-      {% endif %}
-    </div>
+      </ul>
+    {% endif %}
+  </div>
+  
 
     <!-- Sidebar -->
     <div class="sidebar">
