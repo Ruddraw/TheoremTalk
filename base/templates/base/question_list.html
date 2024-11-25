@@ -5,7 +5,7 @@
   <h1>Top Questions</h1>
   
   {% if user.is_authenticated %}
-    <a href="{% url 'base:question-create' %}" class="btn">Ask Question</a>
+    <a href="" class="btn">Ask Question</a>
   {% else %}
     <a href="{% url 'login' %}" class="btn">Log In to Ask</a>
   {% endif %}
@@ -13,8 +13,8 @@
   <div class="list-question">
     {% for question in questions %}
       <div class="question-item">
-        <h3><a href="{% url 'base:question-detail' question.id %}">{{ question.title }}</a></h3>
-        <p>{{ question.content|truncatewords:20 }} <a href="{% url 'base:question-detail' question.id %}">Read More</a></p>
+        <h3><a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a></h3>
+        <p>{{ question.content|truncatewords:20 }} <a href="{% url 'base:question_detail' question.id %}">Read More</a></p>
         <p>Asked by: {{ question.user.username }} on {{ question.date_created|date:"j F, Y" }}</p>
       </div>
     {% empty %}

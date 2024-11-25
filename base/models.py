@@ -10,3 +10,6 @@ class Question(models.Model):
 
   def __str__(self):
     return f'{self.user.username} - Question'
+  
+  class Meta:
+    ordering = ['-date_created']  # Newest questions first

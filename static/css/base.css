@@ -1,75 +1,57 @@
-/* Resetting styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Base CSS for Theorem Talk */
 body {
-  display: flex;
-  background-color: #1c1f24;
-  color: #e1e4e8;
+  margin: 0;
   font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
 }
 
-/* Navbar styles */
 .navbar {
-  background-color: #24292e;
-  color: #fff;
-  padding: 10px;
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbar-brand {
-  font-size: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-}
-
-.navbar-search {
-  display: flex;
-  align-items: center;
-  background-color: #30363d;
-  border-radius: 5px;
-}
-
-.navbar-search input {
+  background-color: #333;
   padding: 10px;
-  border: none;
-  background-color: transparent;
   color: #fff;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.navbar a:hover {
+  color: #00b4d8;
+}
+
+.navbar-search input[type="text"] {
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
 }
 
 .navbar-search button {
-  background-color: #30363d;
+  padding: 6px;
+  background-color: #00b4d8;
   border: none;
-  padding: 10px;
+  border-radius: 3px;
   color: #fff;
   cursor: pointer;
 }
 
+.navbar-search button:hover {
+  background-color: #0077b6;
+}
+
 .navbar-nav {
+  list-style-type: none;
   display: flex;
-  list-style: none;
 }
 
 .navbar-nav li {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
-.navbar-nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px;
-}
-/* CSS for profile pic in navbar */
 .profile-pic {
   width: 30px;
   height: 30px;
@@ -77,23 +59,49 @@ body {
   margin-right: 5px;
 }
 
-/*message style*/
-.msg ul {
-  list-style: none;
+.sidebar {
+  width: 200px;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: 100%;
+  background-color: #333;
+  padding-top: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none;
   padding: 0;
-  margin: 20px auto;
-  max-width: 800px;
+}
+
+.sidebar ul li {
+  padding: 10px;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+}
+
+.sidebar ul li a:hover {
+  background-color: #444;
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+}
+
+.msg ul {
+  list-style-type: none;
+  padding: 0;
 }
 
 .msg li {
-  margin-bottom: 10px;
   padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.alert {
-  font-weight: bold;
+  border-radius: 3px;
+  margin-bottom: 10px;
 }
 
 .alert-success {
@@ -101,120 +109,36 @@ body {
   color: #155724;
 }
 
-.alert-error, .alert-danger {
+.alert-error {
   background-color: #f8d7da;
   color: #721c24;
 }
 
-.alert-info {
-  background-color: #d1ecf1;
-  color: #0c5460;
-}
-
-/* Sidebar styles */
-.sidebar {
-  background-color: #24292e;
-  color: #fff;
-  padding: 20px;
-  width: 220px;
-  position: fixed;
-  top: 60px; /* Adjusted for navbar height */
-  bottom: 0;
-  overflow-y: auto;
-}
-
-.sidebar ul {
-  list-style: none;
-}
-
-.sidebar li {
-  margin-bottom: 15px;
-}
-
-.sidebar a {
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.sidebar i {
-  margin-right: 10px;
-}
-
-.sidebar a:hover {
-  background-color: #30363d;
-}
-
-/* Main content styling */
-.main-content {
-  margin-left: 240px; /* Adjusted for sidebar width */
-  padding-top: 80px; /* Adjusted for navbar height */
-  padding: 20px;
-  width: calc(100% - 240px);
-}
-
-
-
-
-/* Ensure the body and html take up the full height */
-html, body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.wrapper {
-  flex: 1; /* Takes up all available space */
-}
-
-
-
-
-/* Footer Styles */
 .footer {
-  background-color: #1c1f24;
-  color: #e1e4e8;
-  padding: 40px;
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  border-top: 1px solid #2f363d;
-}
-
-.footer-column {
-  flex: 1;
-  padding: 10px;
-}
-
-.footer-logo img {
-  width: 50px;
-  margin-bottom: 15px;
-}
-
-.footer-column h4 {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-column ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
 
 .footer-column ul li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .footer-column ul li a {
-  color: #e1e4e8;
+  color: #00b4d8;
   text-decoration: none;
-  font-size: 14px;
 }
 
 .footer-column ul li a:hover {
-  color: #f0a500;
+  text-decoration: underline;
 }
