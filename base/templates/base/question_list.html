@@ -14,7 +14,14 @@
     {% for question in questions %}
       <div class="question-item">
         <h3><a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a></h3>
-        <p>{{ question.content|truncatewords:20 }} <a href="{% url 'base:question_detail' question.id %}">Read More</a></p>
+        <p>
+          {% if question.content %}
+            {{ question.content|truncatewords:20 }}
+          {% else %}
+            No description provided.
+          {% endif %}
+          <a href="{% url 'base:question_detail' question.id %}">Read More</a>
+        </p>
         <p>Asked by: {{ question.user.username }} on {{ question.date_created|date:"j F, Y" }}</p>
       </div>
     {% empty %}

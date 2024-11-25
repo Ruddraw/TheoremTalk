@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffff;
+        }
+
+        .padding {
+            padding-top: 6rem !important;
+        }
+
+        .user-card-full {
+            overflow: hidden;
+        }
+
+        .card {
+            border-radius: 5px;
+            box-shadow: 0 1px 20px 0 rgba(53, 53, 53, 0.452);
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .user-card-full .user-profile {
+            border-radius: 5px 0 0 5px;
+            background: linear-gradient(to right, rgb(255, 208, 0), orange);
+            text-align: center;
+            padding: 20px 0;
+            color: black;
+        }
+
+        .card-block {
+            padding: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-outline-secondary {
+            border: 1px solid #6c757d;
+            background: transparent;
+            color: #6c757d;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+        }
+
+        .social-link {
+            display: flex;
+            list-style: none;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        .social-link li {
+            margin-right: 10px;
+        }
+
+        .social-link li a {
+            font-size: 20px;
+            color: black;
+            transition: 0.3s;
+        }
+
+        .social-link li a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content page-container" id="page-content">
+        <div class="padding">
+            <div class="row d-flex justify-content-center">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 user-profile">
+                            <h6 class="f-w-600" style="font-size: 24px;">Ask Your Question</h6>
+                            <p style="font-size: 14px;">...get contributions from the community!</p>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        <input type="text" id="title" name="title" placeholder="Enter your question title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content">Description</label>
+                                        <textarea id="content" name="content" rows="5" placeholder="Provide a detailed description" required></textarea>
+                                    </div>
+                                    <button class="btn btn-success" type="submit">Post Question</button>
+                                    <a class="btn btn-outline-secondary" href="#">Cancel</a>
+                                </form>
+                                <ul class="social-link">
+                                    <li><a href="#"><i data-feather="facebook"></i></a></li>
+                                    <li><a href="#"><i data-feather="twitter"></i></a></li>
+                                    <li><a href="#"><i data-feather="instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
+{% endblock content %}

@@ -15,5 +15,12 @@ class QuestionDetailView(DetailView):
   model = Question
   
 class QuestionCreateView(CreateView):
-  model = Question
-  fields = ['title', 'content']
+    model = Question
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Set the user
+        # Debugging: Print form data
+        print("Title:", form.cleaned_data['title'])
+        print("Content:", form.cleaned_data['content'])
+        return super().form_valid(form)

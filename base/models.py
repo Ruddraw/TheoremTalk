@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
 class Question(models.Model):
@@ -10,6 +11,9 @@ class Question(models.Model):
 
   def __str__(self):
     return f'{self.user.username} - Question'
+  
+  def get_absolute_url(self):
+    return reverse('base:question_detail', kwargs={'pk': self.pk})
   
   class Meta:
     ordering = ['-date_created']  # Newest questions first
