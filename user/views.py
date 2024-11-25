@@ -8,6 +8,7 @@ from .forms import UserRegisterForm
 from .forms import ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 
+
 class CustomLoginView(LoginView):
   # Specify custom template
   template_name = 'users/login.html'  
@@ -15,7 +16,9 @@ class CustomLoginView(LoginView):
     if request.user.is_authenticated:
       return redirect('home')  # Redirect if already logged in
     return super().dispatch(request, *args, **kwargs)
-  
+def home(request):
+  return render(request, 'home.html')
+ 
 def register(request):
   if request.user.is_authenticated:
     return redirect('home')  # Redirect if already logged in

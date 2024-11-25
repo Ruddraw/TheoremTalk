@@ -5,7 +5,7 @@
   <h1>Top Questions</h1>
   
   {% if user.is_authenticated %}
-    <a href="" class="btn">Ask Question</a>
+    <a href="{% url 'base:question_create' %}" class="btn">Ask Question</a>
   {% else %}
     <a href="{% url 'login' %}" class="btn">Log In to Ask</a>
   {% endif %}
