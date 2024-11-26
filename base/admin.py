@@ -1,5 +1,9 @@
+# base/admin.py
+
+# Import necessary modules 
 from django.contrib import admin
 from .models import Question
-# Register your models here.
 
+# Register the Question model with the Django admin site
+# This will allow to manage Question objects through the Django admin interface
 admin.site.register(Question)
