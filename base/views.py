@@ -1,26 +1,72 @@
+# base/views.py
+
+# Import necessary modules from Django
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Question
-# Create your views here.
+
+# Home view function to render the homepage
+
+
 def home(request):
-  return render(request, 'home.html')
+    """
+    Renders the 'home.html' template for the homepage.
+    """
+    # Rendering the 'home.html' template when the home view is accessed
+    return render(request, 'home.html')
 
-#CRUD function
+
+# CRUD (Create, Read, Update, Delete) Views for the 'Question' model
+
+# List view to display all questions
 class QuestionListView(ListView):
-  model = Question
-  template_name = 'template/base/question_list.html'  
-  context_object_name = 'questions'
-
-class QuestionDetailView(DetailView):
-  model = Question
-  
-class QuestionCreateView(CreateView):
+    """
+    List view for displaying a list of all questions.
+    Uses the 'Question' model and the 'question_list.html' template.
+    """
+    # Specifying the model to be used (Question)
     model = Question
+
+    # Defining the template for rendering the list of questions
+    template_name = 'template/base/question_list.html'
+
+    # The context variable to be used in the template
+    context_object_name = 'questions'
+
+
+# Detail view to display a single question's details
+class QuestionDetailView(DetailView):
+    """
+    Detail view for displaying a single question's details.
+    Uses the 'Question' model.
+    """
+    # Specifying the model to be used (Question)
+    model = Question
+
+
+# Create view for adding a new question
+class QuestionCreateView(CreateView):
+    """
+    Create view for adding a new question. 
+    Requires a 'title' and 'content' to create a question.
+    """
+    # Specifying the model to be used (Question)
+    model = Question
+
+    # Fields to be displayed in the form for creating a question
     fields = ['title', 'content']
 
     def form_valid(self, form):
-        form.instance.user = self.request.user  # Set the user
-        # Debugging: Print form data
+        """
+        Custom logic for handling a valid form submission. 
+        The user is automatically set to the current logged-in user.
+        """
+        # Assigning the current user to the question instance
+        form.instance.user = self.request.user
+
+        # Debugging: Print form data to the console for verification
         print("Title:", form.cleaned_data['title'])
         print("Content:", form.cleaned_data['content'])
+
+        # Proceeding with the default form submission behavior
         return super().form_valid(form)
