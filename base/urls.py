@@ -1,11 +1,24 @@
+# base/urls.py
+
+# Import necessary modules from Django
 from django.urls import path
 from . import views
 
-app_name = 'base'  
+# Namespace for the app, used to distinguish URLs within this app
+app_name = 'base'
 
+# Defining URL patterns for this app
 urlpatterns = [
-  path('', views.home, name="home"),  # Home page URL
-  path('questions/', views.QuestionListView.as_view(), name="question_list"), # The list of questions
+  # URL for the home page, mapped to the home view
+  path('', views.home, name="home"),  
+  
+  # URL for displaying the list of questions, mapped to the QuestionListView
+  path('questions/', views.QuestionListView.as_view(), name="question_list"), 
+  
+  # URL for creating a new question, mapped to the QuestionCreateView
   path('questions/new', views.QuestionCreateView.as_view(), name="question_create"),
+  
+  # URL for viewing details of a single question, mapped to the QuestionDetailView
+  # The <int:pk> part captures the primary key of the question and passes it to the view
   path('questions/<int:pk>', views.QuestionDetailView.as_view(), name="question_detail"),
 ]
