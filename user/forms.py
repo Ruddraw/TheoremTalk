@@ -1,11 +1,12 @@
 # user/forms.py
 
 # Import necessary Django modules for form creation
-from django import forms  # Import forms module to define form fields
-from django.contrib.auth.models import User  # Import User model to handle user-related forms
-from django.contrib.auth.forms import UserCreationForm  # Import UserCreationForm for creating new users
-from django.db import models  # Import models to define database fields in forms
-from .models import Profile  # Import Profile model to handle profile-related forms
+from django import forms 
+from django.contrib.auth.models import User  
+from django.contrib.auth.forms import UserCreationForm  
+from django.db import models 
+ # Import Profile model to handle profile-related forms
+from .models import Profile 
 
 # User registration form that inherits from Django's UserCreationForm
 class UserRegisterForm(UserCreationForm):

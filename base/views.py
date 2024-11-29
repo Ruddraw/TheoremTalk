@@ -42,6 +42,12 @@ class QuestionDetailView(DetailView):
     """
     # Specifying the model to be used (Question)
     model = Question
+    
+    # The context variable to be used in the template
+    context_object_name = 'question'
+    
+    # The template for displaying the question details
+    template_name = 'base/question_detail.html'
 
 
 # Create view for adding a new question

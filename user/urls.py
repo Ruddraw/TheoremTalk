@@ -19,4 +19,6 @@ urlpatterns = [
   
   # Logout URL that triggers the logout view and logs out the user
   path('logout/', views.logout_view, name='logout'),
+
+  path('profile/<str:username>/', views.profile, name='profile'),
 ]
