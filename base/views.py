@@ -1,15 +1,12 @@
 # base/views.py
 
 # Import necessary modules from Django
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.decorators import login_required
 from .models import Question
-
+from django.core.exceptions import PermissionDenied
 
 # Home view function to render the homepage
-
-
 def home(request):
     """
     Renders the 'home.html' template for the homepage.
@@ -44,10 +41,10 @@ class QuestionDetailView(DetailView):
     """
     # Specifying the model to be used (Question)
     model = Question
-    
+
     # The context variable to be used in the template
     context_object_name = 'question'
-    
+
     # The template for displaying the question details
     template_name = 'base/question_detail.html'
 
@@ -81,8 +78,8 @@ class QuestionCreateView(CreateView):
 
         # Proceeding with the default form submission behavior
         return super().form_valid(form)
-    
-    
+
+# Create view for updating a question
 class QuestionUpdateView(UpdateView):
     """
     Update view for editing an existing question.
@@ -98,7 +95,8 @@ class QuestionUpdateView(UpdateView):
         question = get_object_or_404(Question, pk=self.kwargs['pk'])
         if question.user != self.request.user:
             # If the user is not the owner, redirect or raise an error
-            raise PermissionDenied("You are not allowed to edit this question.")
+            raise PermissionDenied(
+                "You are not allowed to edit this question.")
         return question
 
     def form_valid(self, form):

@@ -4,7 +4,10 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views  # Importing Django's built-in authentication views
-from .views import CustomLoginView, register, logout_view  # Import custom views for login, register, and logout
+from .views import CustomLoginView  # Import custom views for login, register, and logout
+
+# This defines the namespace for the 'user' app
+app_name = 'user'
 
 # URL patterns that define the routing for various user-related pages
 urlpatterns = [
@@ -21,4 +24,9 @@ urlpatterns = [
   path('logout/', views.logout_view, name='logout'),
 
   path('profile/<str:username>/', views.profile, name='profile'),
+
+  # URL to view the list of users
+  path('users/', views.list_users, name='list_users'),  
+
+  
 ]

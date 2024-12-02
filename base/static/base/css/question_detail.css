@@ -1,0 +1,29 @@
+body {
+  margin-top: 100px;
+  font-family: 'Poppins', sans-serif;
+}
+#fh3 {
+  text-align: center;
+  font-size: 30px;
+  padding-top: 20px;
+  text-align: left;
+}
+@media screen and (max-width: 600px) {
+  #fh3 {
+      font-size: 17px;
+      text-align: left;
+  }
+}
+#fh6 {
+  text-align: left;
+  font-size: 15px;
+  padding-bottom: 20px;
+  font-weight: normal;
+}
+@media screen and (max-width: 600px) {
+  #fh6 {
+      font-size: 15px;
+      text-align: left;
+      font-weight: normal;
+  }
+}

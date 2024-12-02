@@ -25,9 +25,9 @@
               {{ user.username }}
             </a>
           </li>
-          <li><a href="{% url 'logout' %}">Logout</a></li>
+          <li><a href="{% url 'user:logout' %}">Logout</a></li>
         {% else %}
-          <li><a href="{% url 'login' %}">Login</a> / <a href="{% url 'register' %}">Sign Up</a></li>
+          <li><a href="{% url 'user:login' %}">Login</a> / <a href="{% url 'user:register' %}">Sign Up</a></li>
         {% endif %}
       </ul>
     </nav>
@@ -39,7 +39,7 @@
         <li><a href="{% url 'base:question_list' %}"><i class="fas fa-question"></i> Questions</a></li>
         <li><a href="#"><i class="fas fa-tags"></i> Tags</a></li>
         <li><a href="#"><i class="fas fa-bookmark"></i> Saves</a></li>
-        <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="{% url 'user:list_users' %}"><i class="fas fa-users"></i> Users</a></li>
         <li><a href="{% url 'base:question_create' %}" class="btn btn-primary">Ask a Question</a></li> 
       </ul>
     </aside>

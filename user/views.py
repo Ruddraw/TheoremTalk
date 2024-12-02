@@ -4,12 +4,12 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
 from .forms import ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 from base.models import Question
+from django.contrib.auth.models import User
 
 # Custom LoginView to handle login with a custom template and prevent logged-in users from accessing the login page
 class CustomLoginView(LoginView):
@@ -51,7 +51,7 @@ def register(request):
   # If the user is authenticated, redirect to home page
   if request.user.is_authenticated:
     # Redirect to home page if the user is already logged in
-    return redirect('home') 
+    return redirect('user:home') 
   
   # If the request method is POST, process the registration form
   if request.method == 'POST':
@@ -62,7 +62,7 @@ def register(request):
       form.save()  # Save the form and create the user
       messages.success(request, 'Account created successfully! You can now log in.')
       # Redirect to login page after successful registration
-      return redirect('login')  
+      return redirect('user:login')  
   else:
     # If it's a GET request, create an empty form instance
     form = UserRegisterForm()  
@@ -80,7 +80,7 @@ def logout_view(request):
   # Logout the user
   logout(request)
   # Redirect to home page after logging out
-  return redirect('home')  
+  return redirect('user:home')  
 
 # Profile view that requires the user to be logged in to access
 @login_required
@@ -114,7 +114,7 @@ def update_profile(request):
       p_form.save()  # Save the profile form
       messages.success(request, 'Your profile has been updated successfully!')
       # Redirect to profile page after successful update
-      return redirect('profile') 
+      return redirect('user:profile') 
   else:
     # If it's a GET request, pre-populate the forms with the current user and profile data
     u_form = UserUpdateForm(instance=request.user)
@@ -128,3 +128,8 @@ def update_profile(request):
 
   # Render the update profile page with the context data
   return render(request, 'users/update_profile.html', context)
+
+#lists all the under of the webpage
+def list_users(request):
+  users = User.objects.all()  # Get all users from the database
+  return render(request, 'users/list_users.html', {'users': users})
