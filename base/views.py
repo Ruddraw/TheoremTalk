@@ -1,9 +1,11 @@
 # base/views.py
 
 # Import necessary modules from Django
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.decorators import login_required
 from .models import Question
+
 
 # Home view function to render the homepage
 
@@ -62,6 +64,9 @@ class QuestionCreateView(CreateView):
     # Fields to be displayed in the form for creating a question
     fields = ['title', 'content']
 
+    # Use your existing 'question_form.html' template
+    template_name = 'base/question_form.html'
+
     def form_valid(self, form):
         """
         Custom logic for handling a valid form submission. 
@@ -76,3 +81,5 @@ class QuestionCreateView(CreateView):
 
         # Proceeding with the default form submission behavior
         return super().form_valid(form)
+    
+    

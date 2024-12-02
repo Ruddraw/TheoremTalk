@@ -3,6 +3,7 @@ body {
   margin: 0;
   font-family: 'Roboto', Arial, sans-serif;
   background-color: #f9fafc;
+  color: #333;
 }
 
 /* Navbar */
@@ -10,7 +11,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 15px 25px;
   background-color: #0077b6;
   color: #ffffff;
 }
@@ -19,6 +20,15 @@ body {
   text-decoration: none;
   color: white;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.navbar a img {
+  width: 30px;  /* Reduced size of profile picture */
+  height: 30px;
+  border-radius: 50%; /* Keeps it circular */
+  margin-right: 10px; /* Space between the image and the username */
 }
 
 .navbar-search input {
@@ -51,6 +61,7 @@ body {
   background-color: #001233;
   height: 100vh;
   padding-top: 20px;
+  border-right: 2px solid #333;
 }
 
 .sidebar ul {
@@ -61,21 +72,72 @@ body {
 .sidebar ul li a {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 15px 20px;
   color: white;
   text-decoration: none;
   transition: background 0.3s;
+  font-size: 16px;
 }
 
 .sidebar ul li a:hover {
   background: #005f8a;
 }
 
+.sidebar ul li a i {
+  margin-right: 10px;
+}
+
 /* Main Content */
 .main-content {
   margin-left: 260px;
-  padding: 20px;
-  max-width: 800px;
+  padding: 30px;
+  max-width: 900px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Home Page */
+.home-container {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.home-title {
+  font-size: 36px;
+  color: #0077b6;
+  margin-bottom: 20px;
+}
+
+.home-description {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.home-info {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.home-subtitle {
+  font-size: 24px;
+  color: #0077b6;
+  margin-bottom: 20px;
+}
+
+.home-info p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
 }
 
 /* Footer */
@@ -86,4 +148,29 @@ body {
   background-color: #001233;
   color: white;
   position: relative;
+  margin-top: 50px;
+}
+
+.footer h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 5px;
+}
+
+.footer ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.footer ul li a:hover {
+  color: #00bcd4;
 }
