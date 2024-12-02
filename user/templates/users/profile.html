@@ -22,7 +22,12 @@
           <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
           <p>{{ question.content|truncatewords:20 }}</p>
           <small>Posted on: {{ question.date_created }}</small>
-        </li>
+          <!-- Add button to go to the question update form -->
+          {% if question.user == user %}
+            <a href="{% url 'base:question_update' question.id %}">
+              <button>Update Your Question</button>
+            </a>
+          {% endif %}
       {% endfor %}
     </ul>
   {% else %}

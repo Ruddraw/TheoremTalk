@@ -83,3 +83,28 @@ class QuestionCreateView(CreateView):
         return super().form_valid(form)
     
     
+class QuestionUpdateView(UpdateView):
+    """
+    Update view for editing an existing question.
+    """
+    model = Question
+    fields = ['title', 'content']
+    template_name = 'base/question_form.html'
+
+    def get_object(self):
+        """
+        Ensure that the user can only update their own question.
+        """
+        question = get_object_or_404(Question, pk=self.kwargs['pk'])
+        if question.user != self.request.user:
+            # If the user is not the owner, redirect or raise an error
+            raise PermissionDenied("You are not allowed to edit this question.")
+        return question
+
+    def form_valid(self, form):
+        """
+        Custom logic for handling a valid form submission.
+        The user is automatically set to the current logged-in user.
+        """
+        form.instance.user = self.request.user
+        return super().form_valid(form)

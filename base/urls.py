@@ -22,6 +22,9 @@ urlpatterns = [
   # The <int:pk> part captures the primary key of the question and passes it to the view
   path('questions/<int:pk>', views.QuestionDetailView.as_view(), name="question_detail"),
 
+  # Add this line for updating a question
+  path('questions/<int:pk>/edit', views.QuestionUpdateView.as_view(), name="question_update"),
+
  
 
 ]
