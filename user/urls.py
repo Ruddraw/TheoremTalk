@@ -6,8 +6,7 @@ from . import views
 from django.contrib.auth import views as auth_views  # Importing Django's built-in authentication views
 from .views import CustomLoginView  # Import custom views for login, register, and logout
 
-# This defines the namespace for the 'user' app
-app_name = 'user'
+
 
 # URL patterns that define the routing for various user-related pages
 urlpatterns = [

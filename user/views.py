@@ -51,7 +51,7 @@ def register(request):
   # If the user is authenticated, redirect to home page
   if request.user.is_authenticated:
     # Redirect to home page if the user is already logged in
-    return redirect('user:home') 
+    return redirect('home') 
   
   # If the request method is POST, process the registration form
   if request.method == 'POST':
@@ -62,7 +62,7 @@ def register(request):
       form.save()  # Save the form and create the user
       messages.success(request, 'Account created successfully! You can now log in.')
       # Redirect to login page after successful registration
-      return redirect('user:login')  
+      return redirect('login')  
   else:
     # If it's a GET request, create an empty form instance
     form = UserRegisterForm()  
@@ -114,7 +114,7 @@ def update_profile(request):
       p_form.save()  # Save the profile form
       messages.success(request, 'Your profile has been updated successfully!')
       # Redirect to profile page after successful update
-      return redirect('user:profile') 
+      return redirect('profile') 
   else:
     # If it's a GET request, pre-populate the forms with the current user and profile data
     u_form = UserUpdateForm(instance=request.user)
