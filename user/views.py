@@ -41,34 +41,31 @@ def home(request):
   """
   return render(request, 'home.html')
 
-# Register view for new users to create an account
 def register(request):
   """
   Handles user registration. If the user is already logged in, redirect to the home page.
   If the request method is POST, it processes the registration form.
   """
-  
-  # If the user is authenticated, redirect to home page
   if request.user.is_authenticated:
-    # Redirect to home page if the user is already logged in
-    return redirect('home') 
-  
-  # If the request method is POST, process the registration form
+    return redirect('home')  # Redirect if already logged in
+
   if request.method == 'POST':
-    # Instantiate the registration form with the submitted data
-    form = UserRegisterForm(request.POST)  
-    # Check if the form is valid
+    form = UserRegisterForm(request.POST)
     if form.is_valid():
-      form.save()  # Save the form and create the user
-      messages.success(request, 'Account created successfully! You can now log in.')
-      # Redirect to login page after successful registration
-      return redirect('login')  
+      form.save()  # Save the new user
+      messages.success(request, 'Your account has been created! You can now log in.')
+      return redirect('login')  # Redirect to the login page after registration
+    else:
+      # Print form errors to debug
+      print(form.errors)
+      # Optionally, display the errors in the template
+      messages.error(request, 'Please correct the errors below.')
   else:
-    # If it's a GET request, create an empty form instance
-    form = UserRegisterForm()  
-  
-  # Render the registration page with the form
+    form = UserRegisterForm()
+
   return render(request, 'users/register.html', {'form': form})
+
+
 
 # Logout view to log the user out and redirect them to the homepage
 # We could use a logout button in HTML since Django’s LogoutView requires a POST request for security reasons.
@@ -80,7 +77,7 @@ def logout_view(request):
   # Logout the user
   logout(request)
   # Redirect to home page after logging out
-  return redirect('user:home')  
+  return redirect('home')  
 
 # Profile view that requires the user to be logged in to access
 @login_required

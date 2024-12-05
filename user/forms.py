@@ -10,16 +10,29 @@ from .models import Profile
 
 # User registration form that inherits from Django's UserCreationForm
 class UserRegisterForm(UserCreationForm):
-  # Define additional fields for user registration
-  first_name = models.TextField(max_length=200)  
-  last_name = models.TextField(max_length=200)  
-  email = models.EmailField()  
+  first_name = forms.CharField(max_length=200)  # CharField instead of TextField
+  last_name = forms.CharField(max_length=200)   # CharField instead of TextField
+  email = forms.EmailField()                    # EmailField for email input
 
   class Meta:
-    # Use the built-in User model for form handling
-    model = User  
-    # Fields to display in the form
-    fields = ['username', 'first_name', 'last_name', 'email']  
+    model = User
+    fields = ['username', 'first_name', 'last_name', 'email']
+
+  # Overriding the save method to ensure the password is correctly handled
+  def save(self, commit=True):
+    user = super().save(commit=False)
+    if commit:
+      # Set the password using the set_password method to ensure it's hashed
+      user.set_password(self.cleaned_data['password1'])
+      user.save()
+    return user
+  def save(self, commit=True):
+    # Save the user and set the password using the set_password method
+    user = super().save(commit=False)
+    if commit:
+      user.set_password(self.cleaned_data['password1'])  # Ensure password is hashed
+      user.save()
+    return user
 
 # User update form for updating existing user information
 class UserUpdateForm(forms.ModelForm):
