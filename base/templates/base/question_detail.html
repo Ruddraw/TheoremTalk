@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="question_detail.css">
     <style>
-        
+        /* Add any custom styles for the reply section here */
     </style>
 </head>
 <body>
@@ -29,6 +29,37 @@
                     </h6>
                 </div>
             </div>
+        </div>
+        
+        <!-- Reply Form Section -->
+        {% if user.is_authenticated %}
+        <div class="reply-section">
+            <h3>Leave a Reply</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ reply_form.as_p }}
+                <button type="submit">Submit Reply</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="login-prompt">
+            <p>Please <a href="{% url 'user:login' %}">log in</a> to reply.</p>
+        </div>
+        {% endif %}
+
+        <!-- Display Existing Replies -->
+        <div class="existing-replies">
+            <h3>Replies</h3>
+            <ul>
+            {% for reply in replies %}
+                <li>
+                    <p>{{ reply.user.username }}: {{ reply.text }}</p>
+                    <small>Posted on {{ reply.created_at|date:"j F, Y" }}</small>
+                </li>
+            {% empty %}
+                <p>No replies yet. Be the first to reply!</p>
+            {% endfor %}
+            </ul>
         </div>
     </div>
 </body>

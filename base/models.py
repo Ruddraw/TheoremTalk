@@ -41,3 +41,12 @@ class Question(models.Model):
   class Meta:
     # Ordering the questions by 'date_created' in descending order (newest first)
     ordering = ['-date_created']
+
+class Reply(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
+  question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='replies')
+  text = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"Reply by {self.user.username} on {self.question.title}"

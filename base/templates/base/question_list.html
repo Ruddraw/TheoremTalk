@@ -13,7 +13,14 @@
   <div class="list-question">
     {% for question in questions %}
       <div class="question-item">
-        <h3><a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a></h3>
+        <h3>
+          <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
+          {% if question.num_replies > 0 %}
+            <span class="reply-count">({{ question.num_replies }} replies)</span>
+          {% else %}
+            <span class="reply-count">(No replies yet)</span>
+          {% endif %}
+        </h3>
         <p>
           {% if question.content %}
             {{ question.content|truncatewords:20 }}

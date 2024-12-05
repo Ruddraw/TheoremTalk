@@ -8,7 +8,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from .forms import ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
-from base.models import Question
+from base.models import Question, Reply
 from django.contrib.auth.models import User
 
 # Custom LoginView to handle login with a custom template and prevent logged-in users from accessing the login page
@@ -85,14 +85,23 @@ def logout_view(request):
 # Profile view that requires the user to be logged in to access
 @login_required
 def profile(request):
-  """
-  Renders the profile page with the user's details and all the questions they've posted.
-  """
-  # Fetch all questions posted by the logged-in user
-  user_questions = Question.objects.filter(user=request.user)  # Get all questions from the logged-in user
+    """
+    Renders the profile page with the user's details, all the questions they've posted, 
+    and all the questions they've replied to.
+    """
+    # Fetch all questions posted by the logged-in user
+    user_questions = Question.objects.filter(user=request.user)  # Get all questions from the logged-in user
 
-  # Pass the questions to the template
-  return render(request, 'users/profile.html', {'questions': user_questions})
+    # Fetch all the questions the user has replied to
+    replied_questions = Reply.objects.filter(user=request.user).values('question').distinct()  # Get the distinct questions the user has replied to
+    replied_question_ids = [reply['question'] for reply in replied_questions]  # Extract question IDs
+    replied_questions = Question.objects.filter(id__in=replied_question_ids)  # Get the actual Question objects
+
+    # Pass the questions and replied questions to the template
+    return render(request, 'users/profile.html', {
+        'questions': user_questions,
+        'replied_questions': replied_questions,
+    })
 
 # Update profile view to allow logged-in users to update their profile information
 @login_required

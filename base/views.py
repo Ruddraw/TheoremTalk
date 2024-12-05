@@ -5,6 +5,10 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Question
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from .models import Question, Reply
+from .forms import ReplyForm
+from django.db.models import Count
 
 # Home view function to render the homepage
 def home(request):
@@ -32,21 +36,55 @@ class QuestionListView(ListView):
     # The context variable to be used in the template
     context_object_name = 'questions'
 
+    def get_queryset(self):
+        """
+        Override to annotate each question with the count of related replies.
+        """
+        return Question.objects.annotate(num_replies=Count('replies')).all()
+    
 
 # Detail view to display a single question's details
 class QuestionDetailView(DetailView):
     """
     Detail view for displaying a single question's details.
-    Uses the 'Question' model.
+    Allows users to submit replies.
     """
-    # Specifying the model to be used (Question)
     model = Question
-
-    # The context variable to be used in the template
     context_object_name = 'question'
-
-    # The template for displaying the question details
     template_name = 'base/question_detail.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Override to include the reply form in the context.
+        """
+        context = super().get_context_data(**kwargs)
+        
+        # Add the reply form to the context
+        context['reply_form'] = ReplyForm()
+
+        # Add all replies related to this question to the context
+        context['replies'] = self.object.replies.all()
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle the form submission for replies.
+        """
+        question = self.get_object()  # Get the question object
+        if request.user.is_authenticated:
+            # Handle the reply form submission
+            reply_form = ReplyForm(request.POST)
+            if reply_form.is_valid():
+                # Create the reply and associate it with the user and question
+                reply = reply_form.save(commit=False)
+                reply.user = request.user
+                reply.question = question
+                reply.save()
+                return redirect('base:question_detail', pk=question.pk)
+        else:
+            # If the user is not authenticated, you can either return an error or redirect
+            return redirect('user:login')  # Or handle as per your requirements
 
 
 # Create view for adding a new question

@@ -22,16 +22,32 @@
           <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
           <p>{{ question.content|truncatewords:20 }}</p>
           <small>Posted on: {{ question.date_created }}</small>
-          <!-- Add button to go to the question update form -->
           {% if question.user == user %}
             <a href="{% url 'base:question_update' question.id %}">
               <button>Update Your Question</button>
             </a>
           {% endif %}
+        </li>
       {% endfor %}
     </ul>
   {% else %}
     <p>You haven't posted any questions yet.</p>
+  {% endif %}
+  
+  <h3>Your Replied Questions:</h3>
+  {% if replied_questions %}
+    <ul>
+      {% for question in replied_questions %}
+        <li>
+          <!-- Link to the detailed view of the replied question -->
+          <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
+          <p>{{ question.content|truncatewords:20 }}</p>
+          <small>Replied on: {{ question.date_created }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't replied to any questions yet.</p>
   {% endif %}
 </div>
 {% endblock %}
