@@ -20,7 +20,7 @@
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
           <li>
-            <a href="{% url 'profile' %}">
+            <a href="{% url 'profile' user.username %}">
               <img src="{{ user.profile.image.url }}" alt="Profile" class="profile-pic">
               {{ user.username }}
             </a>

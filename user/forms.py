@@ -5,7 +5,6 @@ from django import forms
 from django.contrib.auth.models import User  
 from django.contrib.auth.forms import UserCreationForm  
 from django.db import models 
- # Import Profile model to handle profile-related forms
 from .models import Profile 
 
 # User registration form that inherits from Django's UserCreationForm
@@ -24,7 +23,6 @@ class UserRegisterForm(UserCreationForm):
       user.set_password(self.cleaned_data['password1'])
       user.save()
     return user
-
 
 # User update form for updating existing user information
 class UserUpdateForm(forms.ModelForm):

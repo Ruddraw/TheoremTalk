@@ -60,10 +60,6 @@ def register(request):
 
   return render(request, 'users/register.html', {'form': form})
 
-
-
-
-
 # Logout view to log the user out and redirect them to the homepage
 # We could use a logout button in HTML since Django’s LogoutView requires a POST request for security reasons.
 def logout_view(request):
@@ -81,21 +77,20 @@ def logout_view(request):
 @login_required
 def profile(request, username):
     """
-    Renders the profile page for a specific user.
-    Shows the questions they've asked and the questions they've replied to.
+    Renders the profile page for the specified user.
     """
-    # Get the user by username
+    # Get the user by the username or return a 404 error
     profile_user = get_object_or_404(User, username=username)
 
-    # Fetch questions asked by this user
+    # Fetch all questions posted by the user
     user_questions = Question.objects.filter(user=profile_user)
 
-    # Fetch questions the user has replied to
+    # Fetch all questions the user has replied to
     replied_questions = Reply.objects.filter(user=profile_user).values('question').distinct()
     replied_question_ids = [reply['question'] for reply in replied_questions]
     replied_questions = Question.objects.filter(id__in=replied_question_ids)
 
-    # Pass data to the template
+    # Pass the data to the template
     return render(request, 'users/profile.html', {
         'profile_user': profile_user,
         'questions': user_questions,

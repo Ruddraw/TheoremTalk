@@ -1,49 +1,45 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'user/css/profile.css' %}"> <!-- Link the CSS file -->
 <div class="profile">
-    <h1>{{ profile_user.username|title }}'s Profile</h1>
-    <img src="{{ profile_user.profile.image.url }}" alt="{{ profile_user.username }}" class="profile-pic">
-    <p><strong>Bio:</strong> {{ profile_user.profile.bio }}</p>
-    <p><strong>Email:</strong> {{ profile_user.email }}</p>
+  <h1>{{ profile_user.username|title }}'s Profile</h1>
+  <img src="{{ profile_user.profile.image.url }}" alt="{{ profile_user.username }}" class="profile-pic">
+  <p><strong>Bio:</strong> {{ profile_user.profile.bio }}</p>
+  <p><strong>Email:</strong> {{ profile_user.email }}</p>
 
-    <h3>Questions Asked:</h3>
-    {% if questions %}
+  <h3>Questions Asked:</h3>
+  {% if questions %}
     <ul>
-        {% for question in questions %}
+      {% for question in questions %}
         <li>
-            <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
+          <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
         </li>
-        {% endfor %}
+        <!-- Delet the question -->
+        <div class="delete-question">
+          {% if question.user == user %}
+            <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
+          {% endif %}
+        </div>
+      {% endfor %}
     </ul>
     {% else %}
     <p>This user has not asked any questions yet.</p>
-    {% endif %}
+  {% endif %}
 
-    <h3>Questions Replied To:</h3>
-    {% if replied_questions %}
-    <ul>
-        {% for question in replied_questions %}
-        <li>
-            <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>This user has not replied to any questions yet.</p>
-    {% endif %}
+  <h3>Questions Replied To:</h3>
+  {% if replied_questions %}
+  <ul>
+    {% for question in replied_questions %}
+    <li>
+      <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>This user has not replied to any questions yet.</p>
+  {% endif %}
 </div>
 
-<style>
-    .profile {
-        text-align: center;
-    }
-    .profile-pic {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 50%;
-        margin-bottom: 20px;
-    }
-</style>
 {% endblock %}
