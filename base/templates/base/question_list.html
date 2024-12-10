@@ -31,6 +31,14 @@
         </p>
         <p>Asked by: {{ question.user.username }} on {{ question.date_created|date:"j F, Y" }}</p>
       </div>
+
+        <!-- Delet the question -->
+        <div class="delete-question">
+          {% if question.user == user %}
+              <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
+          {% endif %}
+      </div>
+      
     {% empty %}
       <p>No questions available yet.</p>
     {% endfor %}

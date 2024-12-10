@@ -46,6 +46,13 @@
             <p>Please <a href="{% url 'user:login' %}">log in</a> to reply.</p>
         </div>
         {% endif %}
+        
+        <!-- Delet the question -->
+        <div class="delete-question">
+            {% if question.user == user %}
+                <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
+            {% endif %}
+        </div>
 
         <!-- Display Existing Replies -->
         <div class="existing-replies">

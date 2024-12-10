@@ -2,13 +2,17 @@
 
 # Import necessary modules from Django
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Question
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
-from .models import Question, Reply
 from .forms import ReplyForm
 from django.db.models import Count
+from django.views.generic.edit import DeleteView
+
+
+
 
 # Home view function to render the homepage
 def home(request):
@@ -144,3 +148,18 @@ class QuestionUpdateView(UpdateView):
         """
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class QuestionDeleteView(DeleteView):
+    """
+    View to delete a question.
+    Ensures that only the question's author can delete it.
+    """
+    model = Question
+    template_name = 'base/question_confirm_delete.html'
+    success_url = reverse_lazy('base:question_list')
+
+    def get_object(self, queryset=None):
+        question = super().get_object(queryset)
+        if question.user != self.request.user:
+            raise PermissionDenied("You are not allowed to delete this question.")
+        return question
