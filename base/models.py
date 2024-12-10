@@ -23,7 +23,10 @@ class Question(models.Model):
   content = models.TextField(null=True, blank=True)
   
   # DateTime field to store the creation date of the question, defaults to the current time
-  date_created = models.DateTimeField(default=timezone.now)
+  date_created = models.DateTimeField(auto_now_add=True)
+
+  # Automatically updates to the current time on save
+  date_updated = models.DateTimeField(auto_now=True)  
 
   # String representation of the question, used for displaying the question in the admin interface
   def __str__(self):

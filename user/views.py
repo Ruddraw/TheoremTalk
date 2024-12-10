@@ -9,7 +9,7 @@ from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 from base.models import Question, Reply
 from django.contrib.auth.models import User
-from django.db.models import Q  # For query filtering
+from django.db.models import Q  
 
 # Custom LoginView to handle login with a custom template and prevent logged-in users from accessing the login page
 class CustomLoginView(LoginView):

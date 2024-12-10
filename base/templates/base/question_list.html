@@ -29,15 +29,27 @@
           {% endif %}
           <a href="{% url 'base:question_detail' question.id %}">Read More</a>
         </p>
-        <p>Asked by: {{ question.user.username }} on {{ question.date_created|date:"j F, Y" }}</p>
+        <p>
+          Asked by: {{ question.user.username }} on {{ question.date_created|date:"j F, Y" }}
+          {% if question.date_updated > question.date_created %}
+            <br><small>Last updated: {{ question.date_updated|date:"j F, Y, H:i" }}</small>
+          {% endif %}
+        </p>
       </div>
 
-        <!-- Delet the question -->
-        <div class="delete-question">
-          {% if question.user == user %}
-              <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
-          {% endif %}
+      <!-- Delet the question -->
+      <div class="delete-question">
+        {% if question.user == user %}
+            <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
+        {% endif %}
       </div>
+
+      <!-- Add button to go to the question update form -->
+      {% if question.user == user %}
+        <a href="{% url 'base:question_update' question.id %}">
+          <button>Update Your Question</button>
+        </a>
+      {% endif %}
       
     {% empty %}
       <p>No questions available yet.</p>

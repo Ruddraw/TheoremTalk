@@ -44,7 +44,7 @@ class QuestionListView(ListView):
         """
         Override to annotate each question with the count of related replies.
         """
-        return Question.objects.annotate(num_replies=Count('replies')).order_by('-date_created')
+        return Question.objects.annotate(num_replies=Count('replies')).order_by('-date_updated')
     
 # Detail view to display a single question's details
 class QuestionDetailView(DetailView):
