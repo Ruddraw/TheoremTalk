@@ -2,13 +2,14 @@
 
 # Import necessary classes and functions from Django for handling user authentication
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import logout
 from django.contrib import messages
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 from base.models import Question, Reply
 from django.contrib.auth.models import User
+from django.db.models import Q  # For query filtering
 
 # Custom LoginView to handle login with a custom template and prevent logged-in users from accessing the login page
 class CustomLoginView(LoginView):
@@ -77,24 +78,30 @@ def logout_view(request):
 
 # Profile view that requires the user to be logged in to access
 @login_required
-def profile(request):
+@login_required
+def profile(request, username):
     """
-    Renders the profile page with the user's details, all the questions they've posted, 
-    and all the questions they've replied to.
+    Renders the profile page for a specific user.
+    Shows the questions they've asked and the questions they've replied to.
     """
-    # Fetch all questions posted by the logged-in user
-    user_questions = Question.objects.filter(user=request.user)  # Get all questions from the logged-in user
+    # Get the user by username
+    profile_user = get_object_or_404(User, username=username)
 
-    # Fetch all the questions the user has replied to
-    replied_questions = Reply.objects.filter(user=request.user).values('question').distinct()  # Get the distinct questions the user has replied to
-    replied_question_ids = [reply['question'] for reply in replied_questions]  # Extract question IDs
-    replied_questions = Question.objects.filter(id__in=replied_question_ids)  # Get the actual Question objects
+    # Fetch questions asked by this user
+    user_questions = Question.objects.filter(user=profile_user)
 
-    # Pass the questions and replied questions to the template
+    # Fetch questions the user has replied to
+    replied_questions = Reply.objects.filter(user=profile_user).values('question').distinct()
+    replied_question_ids = [reply['question'] for reply in replied_questions]
+    replied_questions = Question.objects.filter(id__in=replied_question_ids)
+
+    # Pass data to the template
     return render(request, 'users/profile.html', {
-      'questions': user_questions,
-      'replied_questions': replied_questions,
+        'profile_user': profile_user,
+        'questions': user_questions,
+        'replied_questions': replied_questions,
     })
+
 
 # Update profile view to allow logged-in users to update their profile information
 @login_required
@@ -133,5 +140,13 @@ def update_profile(request):
 
 #lists all the under of the webpage
 def list_users(request):
-  users = User.objects.all()  # Get all users from the database
-  return render(request, 'users/list_users.html', {'users': users})
+  """
+  View to display all active users who have not been deleted.
+  Users are displayed as clickable cards/buttons with their profile pictures.
+  Clicking on a user's name takes you to their profile page.
+  """
+  # Filter only active users (exclude deleted users)
+  active_users = User.objects.filter(is_active=True)  # Django sets `is_active` to False for deleted users.
+
+  # Pass active users to the template
+  return render(request, 'users/list_users.html', {'users': active_users})

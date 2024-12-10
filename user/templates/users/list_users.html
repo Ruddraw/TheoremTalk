@@ -1,14 +1,49 @@
-<!-- user/templates/users/list_users.html -->
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block content %}
-  <div class="container">
-    <h2>List of Users</h2>
-    <ul>
-      {% for user in users %}
-        <li>{{ user.username }} - {{ user.email }}</li>
-      {% empty %}
-        <li>No users available.</li>
-      {% endfor %}
-    </ul>
-  </div>
+<div class="container">
+    <h1>All Users</h1>
+    <div class="user-list">
+        {% for user in users %}
+        <div class="user-card">
+            <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="profile-pic">
+            <h3><a href="{% url 'profile' user.username %}">{{ user.username }}</a></h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .user-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .user-card {
+        width: 150px;
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    .user-card:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+    a {
+        text-decoration: none;
+        color: #333;
+    }
+    a:hover {
+        color: #007bff;
+    }
+</style>
 {% endblock %}

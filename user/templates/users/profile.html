@@ -1,53 +1,49 @@
-<!-- users/profile.html -->
 {% extends "base.html" %}
 
 {% block content %}
 <div class="profile">
-  <h2>{{ user.username|title }}'s Profile</h2>
-  <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s Profile Picture">
-  <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  
-  <!-- Add user activity section -->
-  <a href="{% url 'update_profile' %}">
-    <button>Update Profile</button>
-  </a>
+    <h1>{{ profile_user.username|title }}'s Profile</h1>
+    <img src="{{ profile_user.profile.image.url }}" alt="{{ profile_user.username }}" class="profile-pic">
+    <p><strong>Bio:</strong> {{ profile_user.profile.bio }}</p>
+    <p><strong>Email:</strong> {{ profile_user.email }}</p>
 
-  <h3>Your Questions:</h3>
-  {% if questions %}
+    <h3>Questions Asked:</h3>
+    {% if questions %}
     <ul>
-      {% for question in questions %}
+        {% for question in questions %}
         <li>
-          <!-- Link to the detailed view of each question -->
-          <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
-          <p>{{ question.content|truncatewords:20 }}</p>
-          <small>Posted on: {{ question.date_created }}</small>
-          {% if question.user == user %}
-            <a href="{% url 'base:question_update' question.id %}">
-              <button>Update Your Question</button>
-            </a>
-          {% endif %}
+            <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
         </li>
-      {% endfor %}
+        {% endfor %}
     </ul>
-  {% else %}
-    <p>You haven't posted any questions yet.</p>
-  {% endif %}
-  
-  <h3>Your Replied Questions:</h3>
-  {% if replied_questions %}
+    {% else %}
+    <p>This user has not asked any questions yet.</p>
+    {% endif %}
+
+    <h3>Questions Replied To:</h3>
+    {% if replied_questions %}
     <ul>
-      {% for question in replied_questions %}
+        {% for question in replied_questions %}
         <li>
-          <!-- Link to the detailed view of the replied question -->
-          <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
-          <p>{{ question.content|truncatewords:20 }}</p>
-          <small>Replied on: {{ question.date_created }}</small>
+            <a href="{% url 'base:question_detail' question.id %}">{{ question.title }}</a>
         </li>
-      {% endfor %}
+        {% endfor %}
     </ul>
-  {% else %}
-    <p>You haven't replied to any questions yet.</p>
-  {% endif %}
+    {% else %}
+    <p>This user has not replied to any questions yet.</p>
+    {% endif %}
 </div>
+
+<style>
+    .profile {
+        text-align: center;
+    }
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+</style>
 {% endblock %}

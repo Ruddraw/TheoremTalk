@@ -44,9 +44,8 @@ class QuestionListView(ListView):
         """
         Override to annotate each question with the count of related replies.
         """
-        return Question.objects.annotate(num_replies=Count('replies')).all()
+        return Question.objects.annotate(num_replies=Count('replies')).order_by('-date_created')
     
-
 # Detail view to display a single question's details
 class QuestionDetailView(DetailView):
     """
@@ -89,7 +88,6 @@ class QuestionDetailView(DetailView):
         else:
             # If the user is not authenticated, you can either return an error or redirect
             return redirect('user:login')  # Or handle as per your requirements
-
 
 # Create view for adding a new question
 class QuestionCreateView(CreateView):
