@@ -5,8 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import UserRegisterForm
-from .forms import ProfileUpdateForm, UserUpdateForm
+from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 from base.models import Question, Reply
 from django.contrib.auth.models import User
@@ -54,16 +53,13 @@ def register(request):
     if form.is_valid():
       form.save()  # Save the new user
       messages.success(request, 'Your account has been created! You can now log in.')
-      return redirect('login')  # Redirect to the login page after registration
-    else:
-      # Print form errors to debug
-      print(form.errors)
-      # Optionally, display the errors in the template
-      messages.error(request, 'Please correct the errors below.')
+      return redirect('login')  # Use the user namespace for the login view
   else:
     form = UserRegisterForm()
 
   return render(request, 'users/register.html', {'form': form})
+
+
 
 
 
@@ -96,8 +92,8 @@ def profile(request):
 
     # Pass the questions and replied questions to the template
     return render(request, 'users/profile.html', {
-        'questions': user_questions,
-        'replied_questions': replied_questions,
+      'questions': user_questions,
+      'replied_questions': replied_questions,
     })
 
 # Update profile view to allow logged-in users to update their profile information
