@@ -28,6 +28,10 @@ class Question(models.Model):
   # Automatically updates to the current time on save
   date_updated = models.DateTimeField(auto_now=True)  
 
+  # Add upvotes and downvotes fields
+  upvotes = models.IntegerField(default=0)
+  downvotes = models.IntegerField(default=0)
+
   # String representation of the question, used for displaying the question in the admin interface
   def __str__(self):
     return f'{self.user.username} - Question'
@@ -40,6 +44,15 @@ class Question(models.Model):
     """
     return reverse('base:question_detail', kwargs={'pk': self.pk})
 
+  # Methods for upvoting and downvoting
+  def upvote(self):
+    self.upvotes += 1
+    self.save()
+
+  def downvote(self):
+    self.downvotes += 1
+    self.save()
+
   # Meta class to define additional properties like ordering
   class Meta:
     # Ordering the questions by 'date_created' in descending order (newest first)
@@ -51,5 +64,18 @@ class Reply(models.Model):
   text = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
 
+  # Add upvotes and downvotes fields
+  upvotes = models.IntegerField(default=0)
+  downvotes = models.IntegerField(default=0)
+
   def __str__(self):
     return f"Reply by {self.user.username} on {self.question.title}"
+  
+  # Methods for upvoting and downvoting
+  def upvote(self):
+    self.upvotes += 1
+    self.save()
+
+  def downvote(self):
+    self.downvotes += 1
+    self.save()

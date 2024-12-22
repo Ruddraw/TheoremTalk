@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}  <!-- Load the static files library -->
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +12,8 @@
     <title>{{ question.title }} - Question Details</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="question_detail.css">
-    <style>
-        /* Add any custom styles for the reply section here */
-    </style>
+    <!-- Link to the external JS file -->
+    <script src="{% static 'js/question_votes.js' %}" defer></script>
 </head>
 <body>
     <div class="container">
@@ -27,6 +28,13 @@
                         Asked By: <a href="{% url 'profile' question.user.username %}">{{ question.user.username|title }}</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 
                         On: {{ question.date_created|date:"j F, Y" }}
                     </h6>
+
+                    <!-- Upvote/Downvote buttons for the question -->
+                    <div class="question-votes">
+                        <button class="upvote-question" data-question-id="{{ question.id }}">Upvote</button>
+                        <button class="downvote-question" data-question-id="{{ question.id }}">Downvote</button>
+                        <p>Upvotes: <span class="upvotes">{{ question.upvotes }}</span> | Downvotes: <span class="downvotes">{{ question.downvotes }}</span></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,7 +55,7 @@
         </div>
         {% endif %}
         
-        <!-- Delet the question -->
+        <!-- Delete the question -->
         <div class="delete-question">
             {% if question.user == user %}
                 <a href="{% url 'base:question_delete' question.pk %}" class="btn btn-danger">Delete Question</a>
@@ -62,6 +70,13 @@
                 <li>
                     <p>{{ reply.user.username }}: {{ reply.text }}</p>
                     <small>Posted on {{ reply.created_at|date:"j F, Y" }}</small>
+
+                    <!-- Upvote/Downvote buttons for each reply -->
+                    <div class="reply-votes">
+                        <button class="upvote-reply" data-reply-id="{{ reply.id }}">Upvote</button>
+                        <button class="downvote-reply" data-reply-id="{{ reply.id }}">Downvote</button>
+                        <p>Upvotes: <span class="upvotes">{{ reply.upvotes }}</span> | Downvotes: <span class="downvotes">{{ reply.downvotes }}</span></p>
+                    </div>
                 </li>
             {% empty %}
                 <p>No replies yet. Be the first to reply!</p>

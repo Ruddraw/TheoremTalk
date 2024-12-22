@@ -3,21 +3,17 @@
 # Import necessary modules from Django
 from pyexpat.errors import messages
 from django.contrib import messages
-from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Question
+from .models import Question, Reply
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from .forms import ReplyForm
 from django.db.models import Count
 from django.views.generic.edit import DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-
-
+from django.contrib.auth.decorators import login_required
 
 # Home view function to render the homepage
 def home(request):
@@ -165,3 +161,31 @@ class QuestionDeleteView(DeleteView):
         if question.user != self.request.user:
             raise PermissionDenied("You are not allowed to delete this question.")
         return question
+    
+@login_required
+def upvote_question(request, question_id):
+    if request.method == 'POST':
+        question = get_object_or_404(Question, id=question_id)
+        question.upvote()  # Call the upvote method
+        return JsonResponse({'upvotes': question.upvotes, 'downvotes': question.downvotes})
+
+@login_required
+def downvote_question(request, question_id):
+    if request.method == 'POST':
+        question = get_object_or_404(Question, id=question_id)
+        question.downvote()  # Call the downvote method
+        return JsonResponse({'upvotes': question.upvotes, 'downvotes': question.downvotes})
+
+@login_required
+def upvote_reply(request, reply_id):
+    if request.method == 'POST':
+        reply = get_object_or_404(Reply, id=reply_id)
+        reply.upvote()  # Call the upvote method
+        return JsonResponse({'upvotes': reply.upvotes, 'downvotes': reply.downvotes})
+
+@login_required
+def downvote_reply(request, reply_id):
+    if request.method == 'POST':
+        reply = get_object_or_404(Reply, id=reply_id)
+        reply.downvote()  # Call the downvote method
+        return JsonResponse({'upvotes': reply.upvotes, 'downvotes': reply.downvotes})
