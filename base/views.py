@@ -1,6 +1,9 @@
 # base/views.py
 
 # Import necessary modules from Django
+from pyexpat.errors import messages
+from django.contrib import messages
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
@@ -10,6 +13,8 @@ from django.shortcuts import redirect
 from .forms import ReplyForm
 from django.db.models import Count
 from django.views.generic.edit import DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 
@@ -106,17 +111,16 @@ class QuestionCreateView(CreateView):
 
     def form_valid(self, form):
         """
-        Custom logic for handling a valid form submission. 
-        The user is automatically set to the current logged-in user.
+        Assign the logged-in user to the question.
         """
-        # Assigning the current user to the question instance
+        if not self.request.user.is_authenticated:
+            # Add a warning message to the request
+            messages.warning(self.request, "You must be logged in to post a question.")
+            
+            # Redirect to the login page
+            return redirect('login')
+        
         form.instance.user = self.request.user
-
-        # Debugging: Print form data to the console for verification
-        print("Title:", form.cleaned_data['title'])
-        print("Content:", form.cleaned_data['content'])
-
-        # Proceeding with the default form submission behavior
         return super().form_valid(form)
 
 # Create view for updating a question
