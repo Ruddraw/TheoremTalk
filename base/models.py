@@ -44,13 +44,18 @@ class Question(models.Model):
     """
     return reverse('base:question_detail', kwargs={'pk': self.pk})
 
-  # Methods for upvoting and downvoting
-  def upvote(self):
-    self.upvotes += 1
+  def upvote(self, increment=True):
+    if increment:
+      self.upvotes += 1
+    else:
+      self.upvotes -= 1
     self.save()
 
-  def downvote(self):
-    self.downvotes += 1
+  def downvote(self, increment=True):
+    if increment:
+      self.downvotes += 1
+    else:
+      self.downvotes -= 1
     self.save()
 
   # Meta class to define additional properties like ordering
@@ -79,3 +84,19 @@ class Reply(models.Model):
   def downvote(self):
     self.downvotes += 1
     self.save()
+
+class QuestionVote(models.Model):
+    VOTE_CHOICES = [
+        ('upvote', 'Upvote'),
+        ('downvote', 'Downvote'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    vote_type = models.CharField(max_length=8, choices=VOTE_CHOICES)
+
+    class Meta:
+        unique_together = ('user', 'question')  # Ensure each user can only vote once per question
+
+    def __str__(self):
+        return f"{self.user.username} voted {self.vote_type} on {self.question.title}"

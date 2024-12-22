@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Question, Reply
+from .models import Question, QuestionVote, Reply
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from .forms import ReplyForm
@@ -166,26 +166,94 @@ class QuestionDeleteView(DeleteView):
 def upvote_question(request, question_id):
     if request.method == 'POST':
         question = get_object_or_404(Question, id=question_id)
-        question.upvote()  # Call the upvote method
-        return JsonResponse({'upvotes': question.upvotes, 'downvotes': question.downvotes})
+
+        # Check if the user has already voted
+        existing_vote = QuestionVote.objects.filter(user=request.user, question=question).first()
+
+        if existing_vote:
+            # If the user had downvoted, change to upvote
+            if existing_vote.vote_type == 'downvote':
+                existing_vote.vote_type = 'upvote'
+                existing_vote.save()
+                question.upvote()  # Increment upvotes
+                question.downvote(False)  # Decrease downvotes (by passing False to not increment)
+
+                return JsonResponse({
+                    'upvotes': question.upvotes,
+                    'downvotes': question.downvotes
+                })
+
+            # If the user already upvoted, prevent re-upvoting
+            return JsonResponse({
+                'error': 'You have already upvoted this question.',
+                'upvotes': question.upvotes,
+                'downvotes': question.downvotes
+            }, status=400)
+
+        # If no previous vote, create a new upvote
+        QuestionVote.objects.create(user=request.user, question=question, vote_type='upvote')
+        question.upvote()  # Increment upvotes
+
+        return JsonResponse({
+            'upvotes': question.upvotes,
+            'downvotes': question.downvotes
+        })
 
 @login_required
 def downvote_question(request, question_id):
     if request.method == 'POST':
         question = get_object_or_404(Question, id=question_id)
-        question.downvote()  # Call the downvote method
-        return JsonResponse({'upvotes': question.upvotes, 'downvotes': question.downvotes})
+
+        # Check if the user has already voted
+        existing_vote = QuestionVote.objects.filter(user=request.user, question=question).first()
+
+        if existing_vote:
+            # If the user had upvoted, change to downvote
+            if existing_vote.vote_type == 'upvote':
+                existing_vote.vote_type = 'downvote'
+                existing_vote.save()
+                question.downvote()  # Increment downvotes
+                question.upvote(False)  # Decrease upvotes (by passing False to not increment)
+
+                return JsonResponse({
+                    'upvotes': question.upvotes,
+                    'downvotes': question.downvotes
+                })
+
+            # If the user already downvoted, prevent re-downvoting
+            return JsonResponse({
+                'error': 'You have already downvoted this question.',
+                'upvotes': question.upvotes,
+                'downvotes': question.downvotes
+            }, status=400)
+
+        # If no previous vote, create a new downvote
+        QuestionVote.objects.create(user=request.user, question=question, vote_type='downvote')
+        question.downvote()  # Increment downvotes
+
+        return JsonResponse({
+            'upvotes': question.upvotes,
+            'downvotes': question.downvotes
+        })
+
+
 
 @login_required
 def upvote_reply(request, reply_id):
     if request.method == 'POST':
         reply = get_object_or_404(Reply, id=reply_id)
-        reply.upvote()  # Call the upvote method
-        return JsonResponse({'upvotes': reply.upvotes, 'downvotes': reply.downvotes})
+        reply.upvote()  # Call the upvote method from the model
+        return JsonResponse({
+            'upvotes': reply.upvotes,
+            'downvotes': reply.downvotes
+        })
 
 @login_required
 def downvote_reply(request, reply_id):
     if request.method == 'POST':
         reply = get_object_or_404(Reply, id=reply_id)
-        reply.downvote()  # Call the downvote method
-        return JsonResponse({'upvotes': reply.upvotes, 'downvotes': reply.downvotes})
+        reply.downvote()  # Call the downvote method from the model
+        return JsonResponse({
+            'upvotes': reply.upvotes,
+            'downvotes': reply.downvotes
+        })

@@ -29,10 +29,10 @@ urlpatterns = [
   path('questions/<int:pk>/delete/', views.QuestionDeleteView.as_view(), name='question_delete'),
 
   #voting urls
-  path('upvote/question/<int:question_id>/', views.upvote_question, name='upvote_question'),
-  path('downvote/question/<int:question_id>/', views.downvote_question, name='downvote_question'),
-  path('upvote/reply/<int:reply_id>/', views.upvote_reply, name='upvote_reply'),
-  path('downvote/reply/<int:reply_id>/', views.downvote_reply, name='downvote_reply'),
+  path('upvote_question/<int:question_id>/', views.upvote_question, name='upvote_question'),
+  path('downvote_question/<int:question_id>/', views.downvote_question, name='downvote_question'),
+  path('upvote_reply/<int:reply_id>/', views.upvote_reply, name='upvote_reply'),
+  path('downvote_reply/<int:reply_id>/', views.downvote_reply, name='downvote_reply'),
 
  
 
